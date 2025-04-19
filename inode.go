@@ -1,10 +1,7 @@
 package ctrie
 
-import "unsafe"
-
 // idirection node
 type inode struct {
-	mtype      mtype
-	mnode      unsafe.Pointer
+	main       *mnode
 	generation uint64
 }

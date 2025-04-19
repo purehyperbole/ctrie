@@ -1,5 +1,7 @@
 package ctrie
 
+import "unsafe"
+
 type mtype byte
 
 const (
@@ -7,3 +9,10 @@ const (
 	mtypet mtype = 1
 	mtypel mtype = 2
 )
+
+type mnode struct {
+	typ  mtype
+	ptr  unsafe.Pointer
+	prev *mnode
+	fail *mnode
+}
