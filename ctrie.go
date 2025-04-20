@@ -5,7 +5,7 @@ import "sync/atomic"
 var gen uint64
 
 type Ctrie[K Key, V any] struct {
-	inode    *inode
+	root     *inode
 	hashfn   func(k any) uint64
 	readonly bool
 }

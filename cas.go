@@ -9,7 +9,7 @@ import (
 // similar to that of the RDCSS, but it does not create the intermediate
 // object except in the case of failures that occur due to the snapshot
 // being taken
-func gcas[K Key, V any](rootNode *Ctrie[K, V], currentNode *inode, oldNode, newNode *mnode) bool {
+func gcas[K Key, V any](trie *Ctrie[K, V], currentNode *inode, oldNode, newNode *mnode) bool {
 	atomic.StorePointer(
 		(*unsafe.Pointer)(unsafe.Pointer(&newNode.prev)),
 		unsafe.Pointer(oldNode),
@@ -30,7 +30,7 @@ func gcas[K Key, V any](rootNode *Ctrie[K, V], currentNode *inode, oldNode, newN
 	) == nil
 }
 
-func gcasCommit[K Key, V any](rootNode *Ctrie[K, V], currentNode *inode, mainNode *mnode) unsafe.Pointer {
+func gcasCommit[K Key, V any](trie *Ctrie[K, V], currentNode *inode, mainNode *mnode) unsafe.Pointer {
 	previous := atomic.LoadPointer(
 		(*unsafe.Pointer)(unsafe.Pointer(&mainNode.prev)),
 	)
@@ -40,7 +40,7 @@ func gcasCommit[K Key, V any](rootNode *Ctrie[K, V], currentNode *inode, mainNod
 	return nil
 }
 
-func gcasRead[K Key, V any](rootNode *Ctrie[K, V], currentNode *inode) unsafe.Pointer {
+func gcasRead[K Key, V any](trie *Ctrie[K, V], currentNode *inode) unsafe.Pointer {
 	main := atomic.LoadPointer(
 		(*unsafe.Pointer)(unsafe.Pointer(&currentNode.main)),
 	)
@@ -53,7 +53,5 @@ func gcasRead[K Key, V any](rootNode *Ctrie[K, V], currentNode *inode) unsafe.Po
 		return main
 	}
 
-	return gcasCommit(rootNode, currentNode, (*mnode)(main))
+	return gcasCommit(trie, currentNode, (*mnode)(main))
 }
-
-func rdcss() {}

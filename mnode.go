@@ -14,5 +14,4 @@ type mnode struct {
 	typ  mtype
 	ptr  unsafe.Pointer
 	prev *mnode
-	fail *mnode
 }
