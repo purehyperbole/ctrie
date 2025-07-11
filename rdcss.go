@@ -37,3 +37,7 @@ func rdcss[K Key, V any](trie *Ctrie[K, V], currentNode *inode) {
 
 func rcdssRead[K Key, V any](trie *Ctrie[K, V], currentNode *inode) {
 }
+
+func rcdssComplete[K Key, V any](trie *Ctrie[K, V], currentNode *inode) {
+
+}
